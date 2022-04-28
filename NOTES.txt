@@ -13,7 +13,7 @@ TODO
 ----
 
 Utiliser `convert -density 1000` pour obtenir les images de meilleure qualité possible.
-
+Utiliser `groff ... -Tpdf ...` car `-Tps` est moins facilement manipulable avec imagemagick (pour la même image, -Tps produit une image mal redimensionnée alors que -Tpdf produit une image convenable.
 
 Notes
 -----
