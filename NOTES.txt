@@ -18,6 +18,9 @@ Utiliser `convert -density 1000` pour obtenir les images de meilleure qualité p
 Notes
 -----
 
+Je dois utiliser `dash`, pas bash !
+	=> `man dash` pour voir toutes les possibilités de substitution de chaines de caractères, etc.
+
 Reprendre la même syntaxe d'arguments que groff ?
 	pic2graph -Tpng fichier.pic -resize 1920x > out.png
 	pic2grpah [groff arguments] INFILE [imagemagick arguments] 
