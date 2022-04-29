@@ -9,8 +9,10 @@ Questions
 Utiliser l'API C d'ImageMagick, WandMagick C ? (cf. <https://imagemagick.org/MagickWand/>)
 	=> Non, cela complexifierait inutilement les choses.
 
-Utiliser potrace ou autotrace pour produire des SVGs?
-       PDF de groff -> SVG
+Utiliser potrace pour produire des SVGs?
+       	PDF de groff -> IM -> SVG
+	Il apparaît bien bête de passer par un format en pixels pour ensuite
+	repasser sur un format vectoriel...
 
 TODO
 ----
