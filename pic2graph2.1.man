@@ -119,7 +119,9 @@ value will be mapped to
 .IR \%convert \'s
 .IR -density
 option, which applies to reading the input PostScript from
-.IR groff .
+.IR groff ;
+default quality is 1 (equivalent to
+.IR "\-density 300" ).
 .
 .
 .TP

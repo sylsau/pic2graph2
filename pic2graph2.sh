@@ -39,7 +39,7 @@ set -o errexit
 #set -o xtrace
 
 groff_opts=""
-convert_density="-density 600"
+convert_density="-density 300"
 convert_opts=""
 convert_trim="-trim"
 convert_size="+repage"
