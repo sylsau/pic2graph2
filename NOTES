@@ -1,0 +1,26 @@
+Objectif
+--------
+
+Moderniser pic2graph, l'utilitaire de conversion d'un fichier `pic` en image propre bien redimensionnée !
+
+Questions
+---------
+
+Utiliser l'API C d'ImageMagick, WandMagick C ? (cf. <https://imagemagick.org/MagickWand/>)
+	=> Non, cela complexifierait inutilement les choses.
+
+Utiliser potrace pour produire des SVGs?
+       	PDF de groff -> IM -> SVG
+	Il apparaît bien bête de passer par un format en pixels pour ensuite
+	repasser sur un format vectoriel...
+
+TODO
+----
+
+- Mettre à jour le manuel
+
+Notes
+-----
+
+Prévoir une grande taille de papier de base (A0 ?) pour être sûr de contenir le diagramme en entier
+	groff -k -e -p -Tps -P-pa0 ...
