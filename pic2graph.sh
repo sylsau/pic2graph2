@@ -3,14 +3,15 @@
 # pic2graph -- compile PIC image descriptions to bitmap images
 #
 # by Eric S. Raymond <esr@thyrsus.com>, July 2002
-
+# modified by Sylvain Saubier <mail@sylsau.com>, March 2022
+#
 # In Unixland, the magic is in knowing what to string together...
 #
 # Take a pic/eqn diagram on stdin, emit cropped bitmap on stdout.
 # The pic markup should *not* be wrapped in .PS/.PE, this script will do that.
 # An -unsafe option on the command line enables gpic/groff "unsafe" mode.
-# A -format FOO option changes the image output format to any format
-# supported by convert(1).  An -eqn option changes the eqn delimiters.
+# A --format FOO option changes the image output format to any format
+# supported by convert(1).  An --eqn option changes the eqn delimiters.
 # All other options are passed to convert(1).  The default format in PNG.
 #
 # Requires the groff suite and the ImageMagick tools.  Both are open source.
@@ -18,24 +19,30 @@
 #
 # Here are the assumptions behind the option processing:
 #
-# 1. Only the -U option of gpic(1) is relevant.  -C doesn't matter because
-#    we're generating our own .PS/.PE, -[ntcz] are irrelevant because we're
-#    generating Postscript.
+# 1. Only a few options are relevant to groff(1)/gpic(1). -C doesn't matter
+# 	because we're generating our own .PS/.PE, -[ntcz] are irrelevant because
+# 	we're generating Postscript. -k/-K can be needed to handle non-english
+# 	input text.
 #
-# 2. Ditto for groff(1), though it's a longer and more tedious demonstration.
-#
-# 3. Many options of convert(1) are potentially relevant (especially 
-#    -density, -interlace, -transparency, -border, and -comment).
-#
-# Thus, we pass -U to gpic and groff, and everything else to convert(1).
+# 2. Many options of convert(1) are potentially relevant (especially 
+# 	-background, -interlace, -border, and -comment).
 #
 # We don't have complete option coverage on eqn because this is primarily
 # intended as a pic translator; we can live with eqn defaults. 
-#
+# We're assuming portrait letter page size is large enough to render the whole
+# diagram.
+# 
+# The -density ImageMagick option needs to be treated separately as it
+# is needed for reading the input PS file.
+# 
+set -o errexit
+set -o xtrace
+
 groff_opts=""
+convert_density="-density 600"
 convert_opts=""
 convert_trim="-trim"
-convert_density="-density 600"
+convert_size="+repage"
 format="png"
 eqndelim='$$'
 
@@ -60,16 +67,20 @@ do
 	shift;;
     -b)
 	convert_opts="$convert_opts -background white -flatten";;
+    -s)
+	convert_size="-resize $2 +repage"
+	shift;;
     -k)
 	groff_opts="$groff_opts -k";;
     -K)
 	groff_opts="$groff_opts -K $2"
 	shift;;
     --eqn)
-	eqndelim=$2
+	eqndelim="$2"
 	shift;;
     -v | --version)
-	echo "GNU pic2graph (groff) version @VERSION@"
+	#echo "GNU pic2graph (groff) version @VERSION@"
+	echo "pic2graph modernized edition by Sylvain Saubier, version 0.9"
 	exit 0;;
     --help)
 	echo "usage: pic2graph [ option ...] < in > out"
@@ -84,37 +95,6 @@ if [ "$eqndelim" ] ; then
     eqndelim="delim $eqndelim"
 fi
 
-# create temporary directory
-tmp=
-for d in "$GROFF_TMPDIR" "$TMPDIR" "$TMP" "$TEMP" /tmp
-do
-    test -n "$d" && break
-done
-
-if ! test -d "$d"
-then
-    echo "$0: error: temporary directory \"$d\" does not exist or is" \
-        "not a directory" >&2
-    exit 1
-fi
-
-if ! tmp=`(umask 077 && mktemp -d -q "$d/pic2graph-XXXXXX") 2> /dev/null`
-then
-    # mktemp failed--not installed or is a version that doesn't support those
-    # flags?  Fall back to older method which uses more predictable naming.
-    #
-    # $RANDOM is a Bashism.  The fallback of $PPID is not good pseudorandomness,
-    # but is supported by the stripped-down dash shell, for instance.
-    tmp="$d/pic2graph$$-${RANDOM:-$PPID}"
-    (umask 077 && mkdir "$tmp") 2> /dev/null
-fi
-
-if ! test -d "$tmp"
-then
-    echo "$0: error: cannot create temporary directory \"$tmp\"" >&2
-    exit 1
-fi
-
 # See if the installed version of convert(1) is new enough to support the -trim
 # option.  Versions that didn't were described as "old" as early as 2008.
 is_convert_recent=`convert -help | grep -e -trim`
@@ -124,7 +104,7 @@ then
     convert_trim="-crop 0x0"
 fi
 
-trap 'exit_status=$?; rm -rf "$tmp" && exit $exit_status' EXIT INT TERM
+trap 'exit_status=$? ; echo $0: error > /dev/stderr && exit $exit_status' EXIT INT TERM
 
 # Here goes:
 # 1. Wrap stdin in dummy .PS/PE macros (and add possibly null .EQ/.EN)
@@ -133,6 +113,6 @@ trap 'exit_status=$?; rm -rf "$tmp" && exit $exit_status' EXIT INT TERM
 # 4. Use convert(1) to crop the PostScript and turn it into a bitmap.
 (echo ".EQ"; echo $eqndelim; echo ".EN"; echo ".PS"; cat; echo ".PE") | \
 	groff -e -p $groff_opts -Tps -P-pletter | \
-	convert $convert_density - $convert_opts $convert_trim $format:-
+	convert $convert_density - $convert_opts $convert_trim $convert_size $format:-
 
 # End
