@@ -1,5 +1,7 @@
 - Mettre à jour le manuel
 - Régler le problème du mauvais profil de couleur ImageMagick
     - Le format PS/PDF est constamment traité comme une source N&B ?
--set -o errexit provoque un message d'erreur à cause du problème évoqué juste
+- set -o errexit provoque un message d'erreur à cause du problème évoqué juste
 au-dessus
+- Inclure des trucs plus sophistiqués à l'image de test diag.pic
+    - Des équation EQN(1), etc.
