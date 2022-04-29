@@ -82,7 +82,9 @@ while [ "$1" ] ; do
         echo "pic2graph modernized edition by Sylvain Saubier, version 2022.04.29"
         exit 0;;
 	--help)
-        echo "usage: pic2graph [-f FORMAT -q QUALITY -b -s SIZE -k -K PRECONV-ENCODING --eqn EQN-DELIM -U -v] < IN > OUT"
+        echo -e "pic2graph2, modernized version of groff's pic2graph utility to \
+turn PIC diagram into images easily.\n\
+Usage:  pic2graph2 [-f FORMAT -q QUALITY -b -s SIZE -k -K PRECONV-ENCODING --eqn EQN-DELIM -U -v] < IN > OUT\n"
         exit 0;;
 	*)
         convert_opts="$convert_opts $1";;
