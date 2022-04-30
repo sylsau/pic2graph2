@@ -25,5 +25,5 @@ README.md:
 	echo -e "# Example\n\nTurns this:\n\`\`\`" >> README.md
 	cat ./test/diag.pic >> README.md
 	echo -e "\`\`\`\ninto this:\n" >> README.md
-	echo -e "<img src=https://raw.githubusercontent.com/sylsau/pic2img/master/static/tests/diag.png width=700>" >> README.md
+	echo -e "<img src=https://raw.githubusercontent.com/sylsau/pic2img/master/test/diag.png width=700>" >> README.md
 

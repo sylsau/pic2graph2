@@ -24,4 +24,4 @@ arrow 1 dashed
 ```
 into this:
 
-<img src=https://raw.githubusercontent.com/sylsau/pic2img/master/static/tests/diag.png width=700>
+<img src=https://raw.githubusercontent.com/sylsau/pic2img/master/test/diag.png width=700>
