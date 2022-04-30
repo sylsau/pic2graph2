@@ -1,0 +1,237 @@
+.ds timestamp 2022-04-29
+.\# Update the above date whenever this file is updated.
+.
+.TH PIC2IMG 1 \*[timestamp] "pic2img v\*[timestamp]"
+.SH NAME
+pic2img \- convert a PIC diagram into a cropped image
+.
+.
+.\" ====================================================================
+.\" Legal Terms
+.\" ====================================================================
+.\"
+.\" This documentation is released to the public domain.
+.
+.
+.\" ====================================================================
+.SH SYNOPSIS
+.\" ====================================================================
+.
+.SY pic2img
+.OP OPTIONS ...
+.OP CONVERT-ARGUMENTS ...
+\< in \> out
+.YS
+.
+.SY pic2img
+\# FIXME: not showing "--version"
+.OP \-\-help | \-\-version
+.YS
+.
+.
+.\" ====================================================================
+.SH DESCRIPTION
+.\" ====================================================================
+.
+.I pic2img
+reads a
+.IR gpic (1)
+program from the standard input and writes an image file,
+by default in Portable Network Graphics (PNG) format,
+to the standard output.
+.
+It furthermore translates
+.IR geqn (1)
+constructs, so it can be used for generating images of mathematical
+formulae.
+.
+.
+.PP
+The input PIC code should
+.I not
+be wrapped with the
+.B \&.PS
+and
+.B \&.PE
+macros that normally guard it within
+.IR groff (1)
+documents.
+.
+.PP
+Please note that
+.I pic2img
+takes its input
+.IR "from the standard input" ,
+and 
+.IR "writes to standard output" .
+It does not feed from an input file or write to an output file directly.
+You can use stream redirection (\fB\<\fR and
+\fB\>\fR) to control input and output to files.
+.IP
+.B pic2img.sh < infile.pic > outfile.png
+.br
+.
+.
+.\" FIXME: How old?  This text hasn't been touched since 2008 at latest.
+.\" Older versions of
+.\" .I \%convert
+.\" will produce a black-on-white graphic; newer ones may produce a
+.\" black-on-transparent graphic.
+.
+.PP
+Arguments not recognized by
+.I pic2img
+are passed to the ImageMagick program
+.IR \%convert (1).
+.
+.
+By specifying these, you can give your image a border,
+set the image's pixel density,
+or perform other useful transformations.
+.
+.
+.PP
+The output image is clipped using
+.IR \%convert 's
+.B \-trim
+option to the smallest possible bounding box.
+.
+.
+.\" ====================================================================
+.SH OPTIONS
+.\" ====================================================================
+.
+.TP
+.BI "\-\-eqn " delimiters
+Use
+.I delimiters
+as the opening and closing
+characters that delimit
+.I geqn
+directives;
+the default is \(lq$$\(rq.
+.
+The option argument
+.I delimiters
+should be a two-character string,
+but an empty string (\(dq\(dq) is accepted as a directive to disable
+.I geqn
+processing.
+.
+.
+.TP
+.BR "\-\-format" , "\-f "
+.I format
+Write the image in
+.IR format ,
+which must be understood by
+.BR \%convert ;
+the default is PNG.
+.
+.TP
+.BI "\-\-quality, \-q " quality
+Sets the output image quality, on a 1-3 scale (1 being the lowest quality).
+If out of this scale, the
+.IR quality
+value will be mapped to
+.IR \%convert \'s
+.IR -density
+option, which applies to reading the input PostScript from
+.IR groff ;
+default quality is 1 (equivalent to
+.IR "\-density 300" ).
+.
+.
+.TP
+.B \-\-help
+Display a usage message and exit.
+.
+.TP
+.B \-U
+Run
+.I groff
+in unsafe mode, enabling the PIC command
+.B sh
+to execute arbitrary Unix shell commands.
+.
+The
+.I groff
+default is to forbid this.
+.
+.
+.TP
+.B \-v
+.TQ
+.B \-\-version
+Display version information and exit.
+.
+.
+.\" ====================================================================
+.SH ENVIRONMENT
+.\" ====================================================================
+.
+.TP
+.I \%GROFF_TMPDIR
+.TQ
+.I \%TMPDIR
+.TQ
+.I TMP
+.TQ
+.I TEMP
+These environment variables are searched in the given order to determine
+the directory where temporary files will be created.
+.
+If none are set,
+.I /tmp
+is used.
+.
+.
+.\" ====================================================================
+.SH AUTHORS
+.\" ====================================================================
+.
+.I pic2img
+was written by
+.MT mail@\:sylsau.com
+Sylvain Saubier
+.ME ,
+based on a recipe by Eric S. \& Raymonds.
+.
+.
+.\" ====================================================================
+.SH "EXAMPLES"
+.\" ====================================================================
+.
+This command creates a
+.I pic.jpg
+JPG image of 1920 pixel of width from the pic
+instructions of the
+.I diagram.pic
+file.
+.IP
+.RB "$ " pic2img 
+-b -k -U -f jpg -s 1920x < diagram.pic > pic.jpg
+.
+.\" ====================================================================
+.SH "SEE ALSO"
+.\" ====================================================================
+.
+W.\& Richard Stevens,
+.UR http://\:www.kohala.com/\:start/\:troff/\:pic2html.html
+.B Turning PIC into HTML
+.UE
+.
+.
+.PP
+.IR eqn2graph (1),
+.IR grap2graph (1),
+.IR gpic (1),
+.IR geqn (1),
+.IR groff (1),
+.IR \%convert (1)
+.
+.
+.\" Local Variables:
+.\" mode: nroff
+.\" End:
+.\" vim: set filetype=groff:
