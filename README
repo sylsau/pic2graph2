@@ -1,3 +1,0 @@
-pic2img, modernized version of groff's pic2graph utility to turn PIC diagram into images easily.
-Usage:  pic2img [-f FORMAT -q QUALITY -s SIZE -b -k -K PRECONV-ENCODING --eqn EQN-DELIM -U] < IN > OUT
-
