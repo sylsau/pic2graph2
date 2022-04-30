@@ -35,7 +35,7 @@
 # The -density ImageMagick option needs to be treated separately as it
 # is needed for reading the input PS file.
 # 
-#set -o xtrace # For debugging
+[ "$DEBUG" ] && set -o xtrace
 set -o errexit
 
 groff_opts=""
