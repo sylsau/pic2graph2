@@ -21,7 +21,7 @@ uninstall:
 	rm -f $(DESTDIR)$(MANPREFIX)/man1/pic2img.1
 
 README.md:
-	./pic2img -h | sed 's/^pic2img/***pic2img***/' > README.md
+	./pic2img -h | sed 's/^pic2img/***pic2img***/ ; s/groff/*groff*/ ; s/pic2graph/*pic2graph*/' > README.md
 	echo -e "# Example\n\nTurns this:\n\`\`\`" >> README.md
 	cat ./test/diag.pic >> README.md
 	echo -e "\`\`\`\ninto this:\n" >> README.md
