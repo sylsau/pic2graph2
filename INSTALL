@@ -1,0 +1,3 @@
+To install or uninstall this program, run:
+    sudo make [un]install
+
