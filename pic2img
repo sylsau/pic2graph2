@@ -82,8 +82,7 @@ while [ "$1" ] ; do
 		echo "pic2graph modernized edition by Sylvain Saubier, version 2022.04.29"
 		exit 0;;
 	-h | --help)
-		echo -e "pic2img, modernized version of groff's pic2graph utility to \
-turn PIC diagram into images easily.\n\
+		echo -e "pic2img, modernized version of groff's pic2graph utility to turn PIC diagram into images easily.  \n\
 Usage:  pic2img [-f FORMAT -q QUALITY -s SIZE -b -k -K PRECONV-ENCODING --eqn EQN-DELIM -U] < IN > OUT\n"
 		exit 0;;
 	*)
