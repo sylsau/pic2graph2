@@ -1,6 +1,6 @@
 #! /bin/sh
 #
-# pic2graph2 -- compile PIC image descriptions to bitmap images
+# pic2img -- compile PIC image descriptions to bitmap images
 #
 # by Sylvain Saubier <mail@sylsau.com>, March 2022
 # based on pic2graph by Eric S. Raymond <esr@thyrsus.com>, July 2002
@@ -35,8 +35,8 @@
 # The -density ImageMagick option needs to be treated separately as it
 # is needed for reading the input PS file.
 # 
+#set -o xtrace # For debugging
 set -o errexit
-#set -o xtrace
 
 groff_opts=""
 convert_density="-density 300"
@@ -82,9 +82,9 @@ while [ "$1" ] ; do
         echo "pic2graph modernized edition by Sylvain Saubier, version 2022.04.29"
         exit 0;;
 	--help)
-        echo -e "pic2graph2, modernized version of groff's pic2graph utility to \
+        echo -e "pic2img, modernized version of groff's pic2graph utility to \
 turn PIC diagram into images easily.\n\
-Usage:  pic2graph2 [-f FORMAT -q QUALITY -b -s SIZE -k -K PRECONV-ENCODING --eqn EQN-DELIM -U -v] < IN > OUT\n"
+Usage:  pic2img [-f FORMAT -q QUALITY -b -s SIZE -k -K PRECONV-ENCODING --eqn EQN-DELIM -U -v] < IN > OUT\n"
         exit 0;;
 	*)
         convert_opts="$convert_opts $1";;
@@ -96,8 +96,8 @@ if [ "$eqndelim" ] ; then
 	eqndelim="delim $eqndelim"
 fi
 
-# See if the installed version of convert(1) is new enough to support the -trim
-# option.  Versions that didn't were described as "old" as early as 2008.
+# See if installed version of convert(1) support the -trim option.
+# Versions that didn't were described as "old" as early as 2008.
 is_convert_recent=`convert -help | grep -e -trim`
 if [ -z "$is_convert_recent" ] ; then
     echo "$0: warning: falling back to old '-crop 0x0' trim method" >&2

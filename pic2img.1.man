@@ -1,6 +1,6 @@
 .TH PIC2GRAPH @MAN1EXT@ "@MDATE@" "groff @VERSION@"
 .SH NAME
-pic2graph2 \- convert a PIC diagram into a cropped image
+pic2img \- convert a PIC diagram into a cropped image
 .
 .
 .\" ====================================================================
@@ -14,13 +14,13 @@ pic2graph2 \- convert a PIC diagram into a cropped image
 .SH SYNOPSIS
 .\" ====================================================================
 .
-.SY pic2graph2
+.SY pic2img
 .OP OPTIONS ...
 .OP CONVERT-ARGUMENTS ...
 .\" < in > out
 .YS
 .
-.SY pic2graph2
+.SY pic2img
 \# FIXME: not showing "--version"
 .OP \-\-help | \-\-version
 .YS
@@ -30,7 +30,7 @@ pic2graph2 \- convert a PIC diagram into a cropped image
 .SH DESCRIPTION
 .\" ====================================================================
 .
-.I pic2graph2
+.I pic2img
 reads a
 .IR @g@pic (@MAN1EXT@)
 program from the standard input and writes an image file,
@@ -63,7 +63,7 @@ documents.
 .
 .PP
 Arguments not recognized by
-.I pic2graph2
+.I pic2img
 are passed to the ImageMagick program
 .IR \%convert (1).
 .
@@ -172,7 +172,7 @@ is used.
 .SH AUTHORS
 .\" ====================================================================
 .
-.I pic2graph2
+.I pic2img
 was written by
 .MT mail@\:sylsau.com
 Sylvain Saubier
