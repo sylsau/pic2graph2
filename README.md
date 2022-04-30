@@ -3,7 +3,7 @@ Usage:  pic2img [-f FORMAT -q QUALITY -s SIZE -b -k -K PRECONV-ENCODING --eqn EQ
 
 # Example
 
-Turns this:
+`pic2img -f PNG -q 2 -s 700x -k -b` turns this:
 ```
 boxwid=1; 	boxht=.75;
 linewid=1; 	lineht=.75;
