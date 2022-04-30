@@ -48,8 +48,6 @@ eqndelim='$$'
 
 while [ "$1" ] ; do
 	case $1 in
-	-U | --unsafe)
-		groff_opts="$groff_opts -U";;
 	-f | --format)
 		format=$2
 		shift;;
@@ -64,11 +62,11 @@ while [ "$1" ] ; do
 			convert_density="-density $2"
 		fi
 		shift;;
-	-b)
-		convert_opts="$convert_opts -background white -flatten";;
 	-s)
 		convert_size="-resize $2 +repage"
 		shift;;
+	-b)
+		convert_opts="$convert_opts -background white -flatten";;
 	-k)
 		groff_opts="$groff_opts -k";;
 	-K)
@@ -77,6 +75,8 @@ while [ "$1" ] ; do
 	--eqn)
 		eqndelim="$2"
 		shift;;
+	-U | --unsafe)
+		groff_opts="$groff_opts -U";;
 	-v | --version)
 		#echo "GNU pic2graph (groff) version @VERSION@"
 		echo "pic2graph modernized edition by Sylvain Saubier, version 2022.04.29"
