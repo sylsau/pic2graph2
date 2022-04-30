@@ -51,43 +51,43 @@ while [ "$1" ] ; do
 	-U | --unsafe)
 		groff_opts="$groff_opts -U";;
 	-f | --format)
-        format=$2
-        shift;;
+		format=$2
+		shift;;
 	-q | --quality)
-        if [ $2 -eq 1 ]; then
-        	convert_density="-density 300"
-        elif [ $2 -eq 2 ]; then
-        	convert_density="-density 600"
-        elif [ $2 -eq 3 ]; then
-        	convert_density="-density 900"
-        else
-        	convert_density="-density $2"
-        fi
-        shift;;
+		if [ $2 -eq 1 ]; then
+			convert_density="-density 300"
+		elif [ $2 -eq 2 ]; then
+			convert_density="-density 600"
+		elif [ $2 -eq 3 ]; then
+			convert_density="-density 900"
+		else
+			convert_density="-density $2"
+		fi
+		shift;;
 	-b)
-        convert_opts="$convert_opts -background white -flatten";;
+		convert_opts="$convert_opts -background white -flatten";;
 	-s)
-        convert_size="-resize $2 +repage"
-        shift;;
+		convert_size="-resize $2 +repage"
+		shift;;
 	-k)
-        groff_opts="$groff_opts -k";;
+		groff_opts="$groff_opts -k";;
 	-K)
-        groff_opts="$groff_opts -K $2"
-        shift;;
+		groff_opts="$groff_opts -K $2"
+		shift;;
 	--eqn)
-        eqndelim="$2"
-        shift;;
+		eqndelim="$2"
+		shift;;
 	-v | --version)
-        #echo "GNU pic2graph (groff) version @VERSION@"
-        echo "pic2graph modernized edition by Sylvain Saubier, version 2022.04.29"
-        exit 0;;
-	--help)
-        echo -e "pic2img, modernized version of groff's pic2graph utility to \
+		#echo "GNU pic2graph (groff) version @VERSION@"
+		echo "pic2graph modernized edition by Sylvain Saubier, version 2022.04.29"
+		exit 0;;
+	-h | --help)
+		echo -e "pic2img, modernized version of groff's pic2graph utility to \
 turn PIC diagram into images easily.\n\
 Usage:  pic2img [-f FORMAT -q QUALITY -b -s SIZE -k -K PRECONV-ENCODING --eqn EQN-DELIM -U -v] < IN > OUT\n"
-        exit 0;;
+		exit 0;;
 	*)
-        convert_opts="$convert_opts $1";;
+		convert_opts="$convert_opts $1";;
 	esac
 	shift
 done
