@@ -84,7 +84,7 @@ while [ "$1" ] ; do
 	-h | --help)
 		echo -e "pic2img, modernized version of groff's pic2graph utility to \
 turn PIC diagram into images easily.\n\
-Usage:  pic2img [-f FORMAT -q QUALITY -b -s SIZE -k -K PRECONV-ENCODING --eqn EQN-DELIM -U -v] < IN > OUT\n"
+Usage:  pic2img [-f FORMAT -q QUALITY -s SIZE -b -k -K PRECONV-ENCODING --eqn EQN-DELIM -U] < IN > OUT\n"
 		exit 0;;
 	*)
 		convert_opts="$convert_opts $1";;
