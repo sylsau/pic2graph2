@@ -1,16 +1,18 @@
+\# LEGAL TERMS
+\# ===========
+\# This documentation is released to the public domain.
+\#
+\# GROFF SYNTAX
+\# ============
+\# Italics for files and important words, bold for programs and arguments.
+\#
+.
 .ds timestamp 2022-04-29
-.\# Update the above date whenever this file is updated.
+.\" Update the above date whenever this file is updated.
 .
 .TH PIC2IMG 1 \*[timestamp] "pic2img v\*[timestamp]"
 .SH NAME
 pic2img \- convert a PIC diagram into a cropped image
-.
-.
-.\" ====================================================================
-.\" Legal Terms
-.\" ====================================================================
-.\"
-.\" This documentation is released to the public domain.
 .
 .
 .\" ====================================================================
@@ -20,12 +22,12 @@ pic2img \- convert a PIC diagram into a cropped image
 .SY pic2img
 .OP OPTIONS ...
 .OP CONVERT-ARGUMENTS ...
-\< in \> out
+.RI \< in " \>" out
 .YS
 .
 .SY pic2img
-\# FIXME: not showing "--version"
-.OP \-\-help | \-\-version
+.OP \-\-help
+.OP \-\-version
 .YS
 .
 .
@@ -33,18 +35,19 @@ pic2img \- convert a PIC diagram into a cropped image
 .SH DESCRIPTION
 .\" ====================================================================
 .
-.I pic2img
+.B pic2img
 reads a
-.IR gpic (1)
+.BR gpic (1)
 program from the standard input and writes an image file,
 by default in Portable Network Graphics (PNG) format,
 to the standard output.
 .
 It furthermore translates
-.IR geqn (1)
+.BR geqn (1)
 constructs, so it can be used for generating images of mathematical
-formulae.
-.
+formulae. The 
+.BR preconv (1)
+preprocessor can also be enabled to parse non-English text.
 .
 .PP
 The input PIC code should
@@ -54,21 +57,23 @@ be wrapped with the
 and
 .B \&.PE
 macros that normally guard it within
-.IR groff (1)
+.BR groff (1)
 documents.
 .
 .PP
 Please note that
-.I pic2img
+.B pic2img
 takes its input
 .IR "from the standard input" ,
 and 
 .IR "writes to standard output" .
 It does not feed from an input file or write to an output file directly.
-You can use stream redirection (\fB\<\fR and
-\fB\>\fR) to control input and output to files.
+You can use shell stream redirections (\fB\<\fR and \fB\>\fR) 
+to control input and output to files.
 .IP
-.B pic2img.sh < infile.pic > outfile.png
+$
+.B pic2img.sh
+.RI < infile.pic " >" outfile.png
 .br
 .
 .
@@ -80,10 +85,9 @@ You can use stream redirection (\fB\<\fR and
 .
 .PP
 Arguments not recognized by
-.I pic2img
+.B pic2img
 are passed to the ImageMagick program
-.IR \%convert (1).
-.
+.BR \%convert (1).
 .
 By specifying these, you can give your image a border,
 set the image's pixel density,
@@ -92,7 +96,7 @@ or perform other useful transformations.
 .
 .PP
 The output image is clipped using
-.IR \%convert 's
+.BR \%convert 's
 .B \-trim
 option to the smallest possible bounding box.
 .
@@ -101,61 +105,99 @@ option to the smallest possible bounding box.
 .SH OPTIONS
 .\" ====================================================================
 .
-.TP
-.BI "\-\-eqn " delimiters
-Use
-.I delimiters
-as the opening and closing
-characters that delimit
-.I geqn
-directives;
-the default is \(lq$$\(rq.
-.
-The option argument
-.I delimiters
-should be a two-character string,
-but an empty string (\(dq\(dq) is accepted as a directive to disable
-.I geqn
-processing.
-.
 .
 .TP
-.BR "\-\-format" , "\-f "
-.I format
+.BI \-f " format"
+.TQ
+.BI \-\-format " format"
 Write the image in
 .IR format ,
 which must be understood by
 .BR \%convert ;
 the default is PNG.
 .
+.
 .TP
-.BI "\-\-quality, \-q " quality
-Sets the output image quality, on a 1-3 scale (1 being the lowest quality).
+.BI "\-q " quality
+.TQ
+.BI "\-\-quality " quality
+Sets the output image quality, on a 1\(en3 scale (1 being the lowest quality).
+The
+.IR 1 ", " 2 " and " 3
+values correspond to 
+.BR \%convert \'s
+.B -density
+values of
+.IR 300 ", " 600 " and " 900 
+respectively, which applies to reading the input PostScript from
+.BR groff .
 If out of this scale, the
-.IR quality
-value will be mapped to
-.IR \%convert \'s
-.IR -density
-option, which applies to reading the input PostScript from
-.IR groff ;
-default quality is 1 (equivalent to
-.IR "\-density 300" ).
+.I quality
+value is directly mapped to the
+.B -density
+option.
 .
 .
 .TP
-.B \-\-help
-Display a usage message and exit.
+.BI \-s " size"
+Set size of the output image, according to 
+.BR convert (1)'s
+.B -geometry
+syntax.
+.
+.
+.TP
+.B \-b
+Set a white background to the output image, even when outputting to PNG 
+.IR format .
+.
+.
+.TP
+.B \-k
+Enable 
+.BR groff 's
+.BR preconv
+preprocessor to parse the input.
+.
+.
+.TP
+.BI \-K " preconv-encoding"
+Set
+.BR groff 's
+.BR preconv
+preprocessor
+input encoding. Implies
+.BR \-k .
+.
+.
+.TP
+.BI \-\-eqn " delimiters"
+Use
+.I delimiters
+as the opening and closing
+characters that delimit
+.B geqn
+directives;
+the default is \(lq$$\(rq.
+The option argument
+.I delimiters
+should be a two-character string,
+but an empty string (\(dq\(dq) is accepted as a directive to disable
+.B geqn
+processing.
+.
 .
 .TP
 .B \-U
+.TQ
+.B \-\-unsafe
 Run
-.I groff
+.B groff
 in unsafe mode, enabling the PIC command
 .B sh
 to execute arbitrary Unix shell commands.
-.
 The
-.I groff
+.BR groff (1)
 default is to forbid this.
 .
 .
@@ -166,24 +208,30 @@ default is to forbid this.
 Display version information and exit.
 .
 .
-.\" ====================================================================
-.SH ENVIRONMENT
-.\" ====================================================================
-.
 .TP
-.I \%GROFF_TMPDIR
+.B \-h
 .TQ
-.I \%TMPDIR
-.TQ
-.I TMP
-.TQ
-.I TEMP
-These environment variables are searched in the given order to determine
-the directory where temporary files will be created.
+.B \-\-help
+Display a usage message and exit.
 .
-If none are set,
-.I /tmp
-is used.
+.
+.\" ====================================================================
+.SH "EXAMPLES"
+.\" ====================================================================
+.
+This command creates a crisp
+.I pic.jpg
+JPG file of 1920 pixel of width reading the pic instructions of the
+.I diagram.pic
+file, with
+.BR groff 's
+unsafe mode and the
+.B preconv
+preprocessor enabled.
+.IP
+.RB "$ " pic2img
+-b -k -U -f jpg -s 1920x -q 3
+.RI < diagram.pic " >" pic.jpg
 .
 .
 .\" ====================================================================
@@ -199,37 +247,35 @@ based on a recipe by Eric S. \& Raymonds.
 .
 .
 .\" ====================================================================
-.SH "EXAMPLES"
-.\" ====================================================================
-.
-This command creates a
-.I pic.jpg
-JPG image of 1920 pixel of width from the pic
-instructions of the
-.I diagram.pic
-file.
-.IP
-.RB "$ " pic2img 
--b -k -U -f jpg -s 1920x < diagram.pic > pic.jpg
-.
-.\" ====================================================================
 .SH "SEE ALSO"
 .\" ====================================================================
 .
+.PP
 W.\& Richard Stevens,
 .UR http://\:www.kohala.com/\:start/\:troff/\:pic2html.html
-.B Turning PIC into HTML
+.I Turning PIC into HTML
 .UE
 .
+.PP
+ImageMagick's online manual,
+.UR https://imagemagick.org/script/command-line-processing.php#geometry
+.I Anatomy of the Command-line / Image Geometry
+.UE
 .
 .PP
-.IR eqn2graph (1),
-.IR grap2graph (1),
-.IR gpic (1),
-.IR geqn (1),
-.IR groff (1),
-.IR \%convert (1)
+ImageMagick's online manual,
+.UR https://imagemagick.org/script/command-line-options.php#density
+.I Annotated List of Command-line Options / -density
+.UE
 .
+.PP
+.BR groff (1),
+.BR \%convert (1),
+.BR gpic (1),
+.BR geqn (1),
+.BR preconv (1),
+.BR eqn2graph (1),
+.BR grap2graph (1)
 .
 .\" Local Variables:
 .\" mode: nroff
